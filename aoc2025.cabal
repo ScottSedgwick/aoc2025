@@ -41,7 +41,8 @@ common common-options
 library
   import:              common-options
   hs-source-dirs:      src
-  exposed-modules:     Day01
+  exposed-modules:     Parsers
+                     , Day01
                      , Day02
 
 executable aoc2025
@@ -59,6 +60,9 @@ test-suite aoc2025-test
   hs-source-dirs:      test
   main-is:             Spec.hs
   build-depends:       aoc2025
+                     , test-framework
+                     , test-framework-hunit
+                     , HUnit
   ghc-options:         -threaded
                        -rtsopts
                        -with-rtsopts=-N
