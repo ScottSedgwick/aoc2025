@@ -4,7 +4,7 @@ import Data.Attoparsec.Text (IResult(..), parse)
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 
-import Day02 (filename, parser, part1, part2)
+import Day03 (filename, parser, part1, part2)
 
 
 main :: IO ()
