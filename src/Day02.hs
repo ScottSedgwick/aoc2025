@@ -15,9 +15,7 @@ module Day02
        , isBad2
        ) where
 
-import Control.Applicative
 import qualified Data.Attoparsec.Text as A
-import Debug.Trace
 import Parsers
 
 filename :: String
@@ -36,37 +34,29 @@ pIntPair = do
     pure (x,y)
 
 part1 :: Input -> Int
-part1 xs = sum $ filter (isBad1 . show) ys
-  where
-    ys = concatMap (\(x,y) -> [x .. y]) xs
+part1 = sum . filter (isBad1 . show) . concatMap (\(x,y) -> [x .. y])
 
 isBad1 :: String -> Bool
-isBad1 s = isBad 2 s
+isBad1 = isBad 2
+
+isBad :: Int -> String -> Bool
+isBad n s = (length ys == n) && allSame ys
+  where
+    l = length s
+    sl = l `div` n
+    ys = split n sl s
 
 allSame :: Eq a => [a] -> Bool
-allSame [] = False
-allSame [_] = False
 allSame (x:xs) = all (==x) xs
+allSame _ = False
 
 split :: Int -> Int -> [a] -> [[a]]
 split _ _ [] = []
 split 1 _ xs = [xs]
 split n l xs = take l xs : split (n - 1) l (drop l xs)
 
-
-isBad :: Int -> String -> Bool
-isBad n s = res
-  where
-    l = length s
-    sl = l `div` n
-    ys = split n sl s
-    res = ((l `mod` n) == 0) && (length ys == n) && allSame ys
-
 part2 :: Input -> Int
-part2 xs = sum zs
-  where
-    ys = concatMap (\(x,y) -> [x .. y]) xs
-    zs = filter (isBad2 . show) ys
+part2 = sum . filter (isBad2 . show) . concatMap (\(x,y) -> [x .. y])
 
 isBad2 :: String -> Bool
 isBad2 s = any (\n -> isBad n s) ns

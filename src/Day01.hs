@@ -16,7 +16,7 @@ module Day01
 
 import Control.Applicative
 import Data.Attoparsec.Text
-import Debug.Trace
+import Parsers
 
 filename :: String
 filename = "data/Day01.txt"
@@ -24,24 +24,13 @@ filename = "data/Day01.txt"
 type Input = [Int]
 
 parser :: Parser Input
-parser = many1' pInput
+parser = listOfParser (pDir 'L' (-1) <|> pDir 'R' 1)
 
-pInput :: Parser Int
-pInput = pLeft <|> pRight
-
-pLeft :: Parser Int
-pLeft = do
-  _ <- char 'L'
+pDir :: Char -> Int -> Parser Int
+pDir c m = do
+  _ <- char c
   x <- decimal
-  _ <- endOfLine
-  pure ((-1) * x)
-
-pRight :: Parser Int
-pRight = do
-  _ <- char 'R'
-  x <- decimal
-  _ <- endOfLine
-  pure x
+  pure (m * x)
 
 part1 :: Input -> Int
 part1 = part1' 0 50
@@ -64,7 +53,7 @@ part2' n p (x:xs) =
   let
     px = p + x
     r = (abs x) `div` 100
-    p' = trace ("N: " <> show n <> ". P: " <> show p <> ". X: " <> show x <> ". PX: " <> show px) $ px `mod` 100
+    p' = px `mod` 100
     n' = if (p' == 0) then n + 1
          else if (p > 0) && (x < 0) && ((abs x) `mod` 100 > p) then n + 1
          else if (p > 0) && (x > 0) && ((x `mod` 100) + p > 100) then n + 1
