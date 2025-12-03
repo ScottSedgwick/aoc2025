@@ -14,13 +14,11 @@ module Day03
        , part2
        ) where
 
-import Control.Applicative
 import qualified Data.Attoparsec.Text as A
 import qualified Data.Char as C
 import qualified Data.List as L
 import qualified Data.Maybe as M
-import Debug.Trace
-import Parsers
+import qualified Parsers as P
 
 filename :: String
 filename = "data/Day03.txt"
@@ -28,7 +26,7 @@ filename = "data/Day03.txt"
 type Input = [[Int]]
 
 parser :: A.Parser Input
-parser = listOfParser $ rowOfParser Nothing pDigit
+parser = P.listOfParser $ P.rowOfParser Nothing pDigit
 
 pDigit :: A.Parser Int
 pDigit = A.choice (map mkP [1..9])

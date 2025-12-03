@@ -14,22 +14,22 @@ module Day01
        , part2
        ) where
 
-import Control.Applicative
-import Data.Attoparsec.Text
-import Parsers
+import Control.Applicative ((<|>))
+import qualified Data.Attoparsec.Text as A
+import qualified Parsers as P
 
 filename :: String
 filename = "data/Day01.txt"
 
 type Input = [Int]
 
-parser :: Parser Input
-parser = listOfParser (pDir 'L' (-1) <|> pDir 'R' 1)
+parser :: A.Parser Input
+parser = P.listOfParser (pDir 'L' (-1) <|> pDir 'R' 1)
 
-pDir :: Char -> Int -> Parser Int
+pDir :: Char -> Int -> A.Parser Int
 pDir c m = do
-  _ <- char c
-  x <- decimal
+  _ <- A.char c
+  x <- A.decimal
   pure (m * x)
 
 part1 :: Input -> Int

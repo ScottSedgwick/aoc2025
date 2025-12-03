@@ -16,7 +16,7 @@ module Day02
        ) where
 
 import qualified Data.Attoparsec.Text as A
-import Parsers
+import qualified Parsers as P
 
 filename :: String
 filename = "data/Day02.txt"
@@ -24,7 +24,7 @@ filename = "data/Day02.txt"
 type Input = [(Int,Int)]
 
 parser :: A.Parser Input
-parser = rowOfParser (Just ',') pIntPair
+parser = P.rowOfParser (Just ',') pIntPair
 
 pIntPair :: A.Parser (Int, Int)
 pIntPair = do
