@@ -2,6 +2,7 @@ module Parsers
   ( charToDigit
   , letters
   , pLines
+  , pValue
   , listOfIntsParser
   , listOfParser
   , rowOfIntsParser
@@ -20,6 +21,10 @@ pLines = do
     xs <- T.unpack <$> A.takeText
     pure $ L.lines xs
 
+pValue :: Char -> a -> A.Parser a
+pValue c v = do
+    _ <- A.char c
+    pure v
 
 listOfIntsParser :: A.Parser [Int]
 listOfIntsParser = listOfParser A.decimal

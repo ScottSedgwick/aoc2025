@@ -42,9 +42,11 @@ library
   import:              common-options
   hs-source-dirs:      src
   exposed-modules:     Parsers
+                     , Utils
                      , Day01
                      , Day02
                      , Day03
+                     , Day04
 
 executable aoc2025
   import:              common-options
