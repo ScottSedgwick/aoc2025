@@ -19,7 +19,7 @@ import qualified Data.Attoparsec.Text as A
 import qualified Data.Maybe as M
 import qualified Data.Map as Map
 import qualified Parsers as P
-import qualified Utils as U
+import Utils (Pos2(..), mapFrom2dList)
 
 filename :: String
 filename = "data/Day04.txt"
@@ -28,29 +28,29 @@ data Content = NoRoll
              | Roll
              deriving stock (Show, Eq)
 
-type Input = Map.Map (Int, Int) Content
+type Input = Map.Map Pos2 Content
 
 parser :: A.Parser Input
-parser = U.mapFrom2dList <$> ( P.listOfParser $ P.rowOfParser Nothing (P.pValue '.' NoRoll <|> P.pValue '@' Roll) )
+parser = mapFrom2dList <$> ( P.listOfParser $ P.rowOfParser Nothing (P.pValue '.' NoRoll <|> P.pValue '@' Roll) )
 
 part1 :: Input -> Int
 part1 = length . getOpens
 
-getOpens :: Input -> [(Int, Int)]
-getOpens xs = filter (isOpen xs) [(x,y) | x <- [0..lx], y <- [0..ly]]
+getOpens :: Input -> [Pos2]
+getOpens xs = filter (isOpen xs) [Pos2 (x,y) | x <- [0..lx], y <- [0..ly]]
   where
-    (lx, ly) = maximum (Map.keys xs)
+    (Pos2 (lx, ly)) = maximum (Map.keys xs)
 
-isOpen :: Input -> (Int, Int) -> Bool
+isOpen :: Input -> Pos2 -> Bool
 isOpen xs p = M.maybe False (\c -> (c == Roll) && countAdjacent p xs < 4) (Map.lookup p xs)
 
-countAdjacent :: (Int, Int) -> Input -> Int
+countAdjacent :: Pos2 -> Input -> Int
 countAdjacent p = length . filter (==Roll) . adjacents p
 
-adjacents :: (Int, Int) -> Input -> [Content]
-adjacents p xs = M.catMaybes (map (\d -> Map.lookup (p `U.tupleAdd` d) xs) ds)
+adjacents :: Pos2 -> Input -> [Content]
+adjacents p xs = M.catMaybes (map (\d -> Map.lookup (p + d) xs) ds)
   where
-    ds = [ (-1,-1), (-1, 0), (-1,1), (0,-1), (0,1), (1,-1), (1, 0), (1,1) ]
+    ds = [ Pos2 (-1,-1), Pos2 (-1, 0), Pos2 (-1,1), Pos2 (0,-1), Pos2 (0,1), Pos2 (1,-1), Pos2 (1, 0), Pos2 (1,1) ]
 
 part2 :: Input -> Int
 part2 = p2 0
@@ -62,6 +62,6 @@ p2 acc xs = if ps == []
   where
     ps = getOpens xs
 
-removeRolls :: [(Int, Int)] -> Input -> Input
+removeRolls :: [Pos2] -> Input -> Input
 removeRolls [] xs = xs
 removeRolls (p:ps) xs = removeRolls ps (Map.insert p NoRoll xs)
