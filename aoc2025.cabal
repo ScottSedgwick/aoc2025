@@ -47,6 +47,7 @@ library
                      , Day02
                      , Day03
                      , Day04
+                     , Day05
 
 executable aoc2025
   import:              common-options

@@ -4,6 +4,7 @@ module Parsers
   , pLines
   , pValue
   , listOfIntsParser
+  , listOfIntegersParser
   , listOfParser
   , rowOfIntsParser
   , rowOfParser
@@ -28,6 +29,9 @@ pValue c v = do
 
 listOfIntsParser :: A.Parser [Int]
 listOfIntsParser = listOfParser A.decimal
+
+listOfIntegersParser :: A.Parser [Integer]
+listOfIntegersParser = listOfParser A.decimal
 
 listOfParser :: A.Parser a -> A.Parser [a]
 listOfParser p = A.many1' $ do
