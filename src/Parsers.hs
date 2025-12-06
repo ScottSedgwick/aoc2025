@@ -8,6 +8,7 @@ module Parsers
   , listOfParser
   , rowOfIntsParser
   , rowOfParser
+  , rowOfParser'
   ) where
 
 import qualified Data.Attoparsec.Text as A
@@ -48,6 +49,15 @@ rowOfParser (Just sep) p = do
     xs <- A.many1' $ do
         x <- p
         _ <- A.option sep (A.char sep)
+        pure x
+    pure xs
+
+rowOfParser' :: Maybe (A.Parser b) -> A.Parser a -> A.Parser [a]
+rowOfParser' Nothing     p = A.many1' p
+rowOfParser' (Just psep) p = do
+    xs <- A.many1' $ do
+        x <- p
+        _ <- psep
         pure x
     pure xs
 

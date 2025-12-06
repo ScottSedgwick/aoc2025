@@ -17,6 +17,7 @@ common common-options
                      , attoparsec
                      , containers
                      , MissingH
+                     , split
                      , text
   default-extensions:  OverloadedStrings
                      , DerivingStrategies  
@@ -48,6 +49,7 @@ library
                      , Day03
                      , Day04
                      , Day05
+                     , Day06
 
 executable aoc2025
   import:              common-options
