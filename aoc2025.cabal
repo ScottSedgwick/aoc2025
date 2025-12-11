@@ -14,9 +14,14 @@ extra-doc-files:     README.md
 
 common common-options
   build-depends:       base ^>= 4.20.0.0
+                     , array
                      , attoparsec
                      , containers
+                     , linearEqSolver
                      , MissingH
+                     , mtl
+                     , sbv
+                     , search-algorithms
                      , split
                      , text
   default-extensions:  OverloadedStrings
@@ -50,6 +55,10 @@ library
                      , Day04
                      , Day05
                      , Day06
+                     , Day07
+                     , Day08
+                     , Day09
+                     , Day10
 
 executable aoc2025
   import:              common-options

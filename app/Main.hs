@@ -4,7 +4,7 @@ import Data.Attoparsec.Text (IResult(..), parse)
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 
-import Day06 (filename, parser1, part1, parser2, part2)
+import Day10 (filename, parser1, part1, parser2, part2)
 
 
 main :: IO ()
@@ -19,9 +19,10 @@ main = do
     case process True (parse parser2 txt) of
         Left  e -> putStrLn $ "Error: " <> e
         Right x -> do
-            print x
+            -- print x
             putStrLn "Part2: "
-            putStrLn $ show (part2 x)
+            p2 <- part2 x
+            putStrLn $ show p2
     
 
 process :: Bool -> IResult T.Text a -> Either String a
