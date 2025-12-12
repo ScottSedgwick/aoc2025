@@ -18,6 +18,7 @@ common common-options
                      , attoparsec
                      , containers
                      , linearEqSolver
+                     , MemoTrie
                      , MissingH
                      , mtl
                      , sbv
@@ -59,6 +60,7 @@ library
                      , Day08
                      , Day09
                      , Day10
+                     , Day11
 
 executable aoc2025
   import:              common-options
